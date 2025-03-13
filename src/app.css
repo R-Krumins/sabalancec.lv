@@ -1,7 +1,12 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-
+@theme {
+    --color-contact-bg: #FFFFFF;
+    --color-contact-green-light: #EFF88F;
+    --color-contact-green-medium: #8CB53F;
+    --color-contact-green-dark: #689633;
+}
 
 
 
