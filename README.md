@@ -15,7 +15,10 @@ If you like, you can also search for some youtube tutorials.
 # 🛠️ How to run
 
 ```bash
-# Spin up a dev server
+# Install necessary packages
+npm install
+
+# Start the dev server
 npm run dev
 ```
 
