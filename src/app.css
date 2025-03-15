@@ -2,7 +2,6 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-    --color-allergens-bg: #FFFFFF;
     --color-contact-bg: #FFFFFF;
     --color-contact-green-light: #EFF88F;
     --color-contact-green-medium: #8CB53F;

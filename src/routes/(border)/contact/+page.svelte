@@ -5,11 +5,6 @@
     let email = '';
     let phone = '';
     let message = '';
-
-    import phone_ico from '$lib/images/contact/phone.svg';
-    import email_ico from '$lib/images/contact/mail.svg';
-    import location_ico from '$lib/images/contact/location.svg';
-
 </script>
 
 <style>
@@ -77,29 +72,29 @@
         p margin from h1 -> mt-4
     -->
     <h1 class="text-5xl w-full text-center">Contact Us</h1>
-    <p class="w-full text-center mt-4 mb-4 poppins-medium text-gray-500">Any questions or remarks? Just write us a message!</p>
+    <p class="w-full text-center mt-4 mb-4">Any questions or remarks? Just write us a message!</p>
     
     <div class="flex flex-wrap align-center w-7xl bg-white p-2 rounded-xl">
 
         <div class="w-full md:w-2/5 bg-contact-green-medium rounded-lg p-12 relative truncate text-wrap">
             <!--Contact information-->
-            <h2 class="text-3xl w-full font-bold text-white poppins-semibold">Contact information</h2>
+            <h2 class="text-3xl w-full font-bold text-white">Contact information</h2>
             <p class="w-full mt-4 mb-4 text-gray-200">Say something to start a live chat!</p>
             <div class="z-30 relative md:mb-48">
-                <p class="text-white mt-8 sm:mt-24 poppins-regular">
-                    <img src={phone_ico} alt="Icon" class="inline-block align-middle w-6 h-6 me-4" />
+                <p class="text-white mt-8 sm:mt-24">
+                    <img src="/icons/phone.svg" alt="Icon" class="inline-block align-middle w-6 h-6 me-4" />
                     <a href="tel:+371 12345678">+371 12345678</a>
                 </p>
-                <p class="text-white mt-12 poppins-regular">
-                    <img src={email_ico} alt="Icon" class="inline-block align-middle w-6 h-6 me-4" />
+                <p class="text-white mt-12">
+                    <img src="/icons/mail.svg" alt="Icon" class="inline-block align-middle w-6 h-6 me-4" />
                     <a href="mailto:epasts@inbox.lv">epasts@inbox.lv</a>
                 </p>
-                <p class="text-white mt-12 poppins-regular">
-                    <img src={location_ico} alt="Icon" class="inline-block align-middle w-6 h-6 me-4" />
+                <p class="text-white mt-12">
+                    <img src="/icons/location.svg" alt="Icon" class="inline-block align-middle w-6 h-6 me-4" />
                     ALUS STREET 5, VALMIERA, VIDZEME, ESTONIA
                 </p>
             </div>
-            <div class="CircleLight absolute bg-contact-green-light rounded-full w-35 h-35 z-20 opacity-25 md:opacity-100"></div>
+            <div class="CircleLight absolute bg-contact-green-light rounded-full w-35 h-35 z-20"></div>
             <div class="CircleDark absolute bg-contact-green-dark rounded-full w-70 h-70 z-10"></div>
         </div>
 
@@ -137,7 +132,7 @@
             </div>
 
             <div class="CheckboxDiv px-8 py-6 flex flex-row flex-wrap w-auto">
-                <p class="w-full poppins-semibold">Select subject:</p>
+                <p class="w-full">Select subject:</p>
                 <label class="flex items-center space-x-2 cursor-pointer pe-4 mt-4 w-full sm:w-auto">
                   <input type="checkbox">
                   <p class="text-gray-700 text-sm m-0">General inquiry</p>
@@ -171,7 +166,7 @@
             </div>
 
             <div class="flex flex-wrap w-full px-8 py-6 justify-center md:justify-end">
-                <input type="submit" value="Send Message" class="bg-black cursor-pointer poppins-medium hover:bg-gray-800 text-white py-4 px-12 border border-black rounded-lg">
+                <input type="submit" value="Send Message" class="bg-black cursor-pointer hover:bg-gray-800 text-white py-4 px-12 border border-black rounded-lg">
             </div>
         </form>
     </div>
