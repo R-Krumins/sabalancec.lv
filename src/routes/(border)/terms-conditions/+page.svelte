@@ -2,7 +2,7 @@
 
     <!-- Image container with responsive padding -->
     <div class="w-full max-w-[1400px] px-4 sm:px-8 md:px-16">
-        <img src="/frontpage/TOC-image.png" alt="Image"
+        <img src="/frontpage/TOC-image.png" alt="Img"
             class="rounded-lg w-full max-w-[1400px] max-h-[1000px] object-contain mx-auto">
     </div>
 
