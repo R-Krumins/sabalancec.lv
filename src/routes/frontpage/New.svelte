@@ -1,37 +1,32 @@
 <script>
+	import Hdecor from '$lib/components/Hdecor.svelte';
+	import ProductCard from '$lib/components/ProductCard.svelte';
 	const products = [
 		{
 			name: 'Dragon fruit',
-			img: '/frontpage/dragon-fruit.jpg'
+			img: '/frontpage/dragon-fruit.jpg',
+			link: '/catalogue'
 		},
 		{
 			name: 'Chia seeds',
-			img: '/frontpage/chia-seeds.jpg'
+			img: '/frontpage/chia-seeds.jpg',
+			link: '/catalogue'
 		},
 		{
 			name: 'Pistachios',
-			img: '/frontpage/pistachios.jpg'
+			img: '/frontpage/pistachios.jpg',
+			link: '/catalogue'
 		}
 	];
 </script>
 
 <div>
-	<div class="relative mb-8 inline-block">
-		<img src="/frontpage/yellow-leaf.svg" alt="decor" class="absolute -top-7 right-0 z-0 size-28" />
-		<h1 class="poppins-extrabold relative z-10 text-3xl">NEW PRODUCTS</h1>
-	</div>
-	<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-		{#each products as { name, img }, i}
-			<div class="">
-				<img src={img} alt={name} class="h-120 w-80 rounded-2xl object-cover" />
-				<div class="mt-4 flex max-w-80 items-center justify-between">
-					<div>
-						<h2 class="poppins-bold">{name}</h2>
-						<p class="poppins-thin">See details</p>
-					</div>
-					<img src="/frontpage/arrow.svg" alt="arrow" class="size-6" />
-				</div>
-			</div>
+	<Hdecor text="NEW PRODUCTS" />
+	<div
+		class="grid auto-rows-auto grid-cols-1 items-center gap-x-12 gap-y-10 md:grid-cols-3 lg:grid-cols-4"
+	>
+		{#each products as { name, img, link }}
+			<ProductCard w="80" h="120" {name} {img} {link} />
 		{/each}
 	</div>
 </div>
