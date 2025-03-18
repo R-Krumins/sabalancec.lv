@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AuthNav from '../AuthNav.svelte';
 	import Form from '../Form.svelte';
+
 	const formData = {
 		items: [
 			{ label: 'Email address', name: 'email' },
@@ -10,12 +11,19 @@
 		submitBtnName: 'Log in'
 	};
 
-	function onsubmit(e: Event) {
+	async function onsubmit(e: Event) {
 		e.preventDefault();
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 		const data = Object.fromEntries(formData.entries());
-		console.log(data);
+
+		const response = await fetch(`/auth/login`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email: data.email, password: data.password })
+		});
+		const res = await response.json();
+		console.log(res);
 	}
 </script>
 
