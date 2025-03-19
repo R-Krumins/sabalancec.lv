@@ -30,12 +30,12 @@
 				<li>
 					{#if userName}
 						<div class="flex items-center gap-2">
-							<a href="/profile/cart">
+							<a href="/account/cart">
 								<img class="size-7" src={Cart} alt="cart" />
 							</a>
 
 							<a
-								href="/profile"
+								href="/account"
 								class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-300 p-6"
 							>
 								{getInitials(userName)}

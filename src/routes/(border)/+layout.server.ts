@@ -2,6 +2,6 @@ import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	return {
-		userName: locals.user.name
+		userName: locals.user?.name
 	};
 };
