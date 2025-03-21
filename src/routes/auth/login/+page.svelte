@@ -1,36 +1,17 @@
 <script lang="ts">
-	import AuthNav from '../AuthNav.svelte';
-	import Form from '../Form.svelte';
+	import Form from '$lib/components/auth/Form.svelte';
+	import Nav from '$lib/components/auth/Nav.svelte';
 
-	const formData = {
-		items: [
-			{ label: 'Email address', name: 'email' },
-			{ label: 'Password', name: 'password' }
-		],
-		onsubmit,
-		submitBtnName: 'Log in'
-	};
-
-	async function onsubmit(e: Event) {
-		e.preventDefault();
-		const form = e.target as HTMLFormElement;
-		const formData = new FormData(form);
-		const data = Object.fromEntries(formData.entries());
-
-		const response = await fetch(`/auth/login`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ email: data.email, password: data.password })
-		});
-		const res = await response.json();
-		console.log(res);
-	}
+	export let form;
+	console.log(form);
 </script>
 
-<AuthNav currentPage="login" />
-<Form {...formData} />
-<p class="poppins-thin mt-6 text-right">
-	<a href="https://www.nhs.uk/conditions/dementia/care-and-support/help-and-support/"
-		>Forgot password?</a
-	>
-</p>
+<div>
+	<Nav currentPage="login" />
+	<Form method="POST" let:Item let:SubmitBtn let:Error>
+		<Item name="email" value={form?.email ?? ''} type="email" required>Email</Item>
+		<Item name="password" value={form?.password ?? ''} type="password" required>Password</Item>
+		<Error msg={form?.error} />
+		<SubmitBtn>Log in</SubmitBtn>
+	</Form>
+</div>

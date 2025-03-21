@@ -6,7 +6,7 @@
 	let { currentPage } = $props();
 </script>
 
-<div class="flex w-full">
+<div class="mb-8 flex w-full">
 	<button
 		class="w-full rounded-l-xl bg-[#42531C] p-[16px] text-white {currentPage != 'signup' &&
 			'opacity-25'}"
