@@ -1,61 +1,54 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
   const categories = [
     "Fruits, Seeds, Nuts",
     "Vegetables",
     "Greens",
     "Dairy",
-    "Grains"
+    "Grains",
+    "Legumes",
+    "Specialty"
   ];
 
   const subcategories = {
     "Fruits, Seeds, Nuts": ["Fruits", "Seeds", "Nuts"]
   };
 
-  const products = [
-    // Fruits
-    { name: "Banana", image: "/frontpage/products/banana.png", category: "Fruits" },
-    { name: "Pear", image: "/frontpage/products/pear.png", category: "Fruits" },
-    { name: "Apple", image: "/frontpage/products/Apple.png", category: "Fruits" },
-    { name: "Avocado", image: "/frontpage/products/Avocado.png", category: "Fruits" },
-    { name: "Blueberries", image: "/frontpage/products/Blueberries.png", category: "Fruits" },
-    { name: "Strawberries", image: "/frontpage/products/Strawberries.png", category: "Fruits" },
-    { name: "Dragonfruit", image: "/frontpage/products/Dragonfruit.png", category: "Fruits" },
-    { name: "Kiwi", image: "/frontpage/products/Kiwi.png", category: "Fruits" },
-    { name: "Mango", image: "/frontpage/products/Mango.png", category: "Fruits" },
-    { name: "Nectarin", image: "/frontpage/products/Nectarin.png", category: "Fruits" },
-    { name: "Orange", image: "/frontpage/products/Orange.png", category: "Fruits" },
-    { name: "Papaya", image: "/frontpage/products/Papaya.png", category: "Fruits" },
-    { name: "Peach", image: "/frontpage/products/Peach.png", category: "Fruits" },
-    { name: "Pineapple", image: "/frontpage/products/pineapple.png", category: "Fruits" },
-    // Nuts
-    { name: "Almonds", image: "/frontpage/products/Almonds.png", category: "Nuts" },
-    { name: "Walnuts", image: "/frontpage/products/Walnuts.png", category: "Nuts" },
-    { name: "Cashews", image: "/frontpage/products/Cashews.png", category: "Nuts" },
-    { name: "Pistachios", image: "/frontpage/products/Pistachios.png", category: "Nuts" },
-    { name: "Brazil nuts", image: "/frontpage/products/Brazil nuts.png", category: "Nuts" },
-    { name: "Pine nuts", image: "/frontpage/products/Pine nuts.png", category: "Nuts" },
-    // Seeds
-    { name: "Chia Seeds", image: "/frontpage/products/Chia seeds.png", category: "Seeds" },
-    // Vegetables
-    { name: "Carrots", image: "/frontpage/products/Carrots.png", category: "Vegetables" },
-    { name: "Cucumber", image: "/frontpage/products/Cucumber.png", category: "Vegetables" },
-    { name: "Spinach", image: "/frontpage/products/Spinach.png", category: "Vegetables" },
-    { name: "Tomatoes", image: "/frontpage/products/Tomatoes.png", category: "Vegetables" },
-    { name: "Bell pepper", image: "/frontpage/products/Bell pepper.png", category: "Vegetables" },
-    { name: "Potatoes", image: "/frontpage/products/Potatoes.png", category: "Vegetables" },
-    { name: "Jānis Ķiploks", image: "/frontpage/products/Jānis Ķiploks.png", category: "Vegetables" },
-    // Dairy
-    { name: "Eggs", image: "/frontpage/products/Eggs.png", category: "Dairy" },
-    // Grains
-    { name: "Quinoa", image: "/frontpage/products/Quinoa.png", category: "Grains" },
-    { name: "Chickpeas", image: "/frontpage/products/chickpeas.png", category: "Grains" },
-    { name: "Lentils", image: "/frontpage/products/Lentils.png", category: "Grains" }
-  ];
+  interface Product {
+    name: string;
+    image: string;
+    category: string;
+  }
 
+  let products: Product[] = []; 
   let selectedCategory = 'All Products';
   let showDropdown = false;
   let searchQuery = '';
+  let loading = true; // Add a loading state
 
+  // Fetch products from the correct API endpoint
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('https://sabalancec-warehouse-sanv8.ondigitalocean.app/api/product');
+      const data = await response.json();
+      if (data.success) {
+        products = data.data.map((product: { name: string; image: string; category: string }) => ({
+          name: product.name,
+          image: product.image, // Use the image path directly
+          category: product.category
+        }));
+      } else {
+        console.error('Failed to fetch products:', data.msg);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      loading = false; // Set loading to false after fetching
+    }
+  };
+
+  // Filter products based on category and search query
   const filteredProducts = () => {
     return products.filter(product => {
       const matchesCategory = selectedCategory === 'All Products' || 
@@ -75,6 +68,11 @@
     selectedCategory = subcategory;
     showDropdown = false;
   };
+
+  // Fetch products when the component is mounted
+  onMount(() => {
+    fetchProducts();
+  });
 </script>
 
 <main class="max-w-5xl mx-auto pb-8">
@@ -134,12 +132,22 @@
 
   <!-- Product Grid -->
   <section class="grid grid-cols-3 gap-6 w-3/4 items-start">
-    {#each filteredProducts() as product}
-      <div class="bg-white p-4 text-center shadow-md rounded-md flex flex-col h-full">
-        <img class="w-32 mx-auto mb-4" src={product.image} alt={product.name}>
-        <p class="mt-auto">{product.name}</p>
-      </div>
-    {/each}
+    {#if loading}
+      <p>Loading products...</p>
+    {:else if filteredProducts().length === 0}
+      <p>No products found.</p>
+    {:else}
+      {#each filteredProducts() as product}
+        <div class="bg-white p-4 text-center shadow-md rounded-md flex flex-col h-full">
+          <img
+            class="w-32 mx-auto mb-4"
+            src={`https://sabalancec-warehouse-sanv8.ondigitalocean.app/static/${product.image}`}
+            alt={product.name}
+          >
+          <p class="mt-auto">{product.name}</p>
+        </div>
+      {/each}
+    {/if}
   </section>
 
 </div>

@@ -6,7 +6,6 @@
             class="rounded-lg w-full max-w-[1400px] max-h-[1000px] object-contain mx-auto">
     </div>
 
-    <!-- Text container with smaller text, aligned left, added padding, and reduced opacity -->
     <div class="text-left w-full max-w-[1400px] px-4 sm:px-8 md:px-16 py-6 space-y-4 opacity-50">
         <p class="text-xs sm:text-[clamp(0.75rem,5vw,0.875rem)]">
             These general terms (the "Terms") apply between you, the customer (the "customer", "you", "your") and Foodora Norway AS, organization number 996 691 349 whose office is registered at Waldemar Thranes gate 98, 0175 Oslo ("foodora", "we", "us") which apply when you order food, drinks or other menu items (referred to as "Goods") available on www.foodora.no or foodora's mobile application (both referred to as "the Platform").
