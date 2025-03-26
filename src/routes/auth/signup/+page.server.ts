@@ -12,8 +12,6 @@ export const actions = {
 		const res = await authServiceRegister(fullname, address, email, password);
 		const data = await res.json();
 
-		console.log(data);
-
 		if (res.ok) {
 			return redirect(303, '/auth/login');
 		}

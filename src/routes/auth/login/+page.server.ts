@@ -10,8 +10,6 @@ export const actions = {
 		const res = await authServiceLogin(email, password);
 		const data = await res.json();
 
-		console.log(data);
-
 		if (res.ok) {
 			setJWTCookies(cookies, data);
 			return redirect(303, '/');
