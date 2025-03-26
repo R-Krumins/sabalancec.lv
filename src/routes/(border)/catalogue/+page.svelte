@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  export let data: { products: { name: string; image: string; category: string }[] };
 
   const categories = [
     "Fruits, Seeds, Nuts",
@@ -15,46 +15,23 @@
     "Fruits, Seeds, Nuts": ["Fruits", "Seeds", "Nuts"]
   };
 
-  interface Product {
-    name: string;
-    image: string;
-    category: string;
-  }
-
-  let products: Product[] = []; 
+  let products = data.products; // Use the products data passed from +page.server.ts
   let selectedCategory = 'All Products';
   let showDropdown = false;
   let searchQuery = '';
-  let loading = true; // Add a loading state
 
-  // Fetch products from the correct API endpoint
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch('https://sabalancec-warehouse-sanv8.ondigitalocean.app/api/product');
-      const data = await response.json();
-      if (data.success) {
-        products = data.data.map((product: { name: string; image: string; category: string }) => ({
-          name: product.name,
-          image: product.image, // Use the image path directly
-          category: product.category
-        }));
-      } else {
-        console.error('Failed to fetch products:', data.msg);
-      }
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    } finally {
-      loading = false; // Set loading to false after fetching
-    }
-  };
+  const categoryMap = Object.entries(subcategories).reduce((map, [parent, subs]) => {
+    subs.forEach(sub => map[sub] = parent);
+    return map;
+  }, {} as Record<string, string>);
 
-  // Filter products based on category and search query
+  // Filters products based on category and search query
   const filteredProducts = () => {
     return products.filter(product => {
+      const parentCategory = categoryMap[product.category] || product.category;
       const matchesCategory = selectedCategory === 'All Products' || 
-        (selectedCategory === 'Fruits, Seeds, Nuts' && 
-          (product.category === 'Fruits' || product.category === 'Seeds' || product.category === 'Nuts')) || 
-        product.category === selectedCategory;
+        selectedCategory === parentCategory || 
+        selectedCategory === product.category;
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
@@ -68,16 +45,11 @@
     selectedCategory = subcategory;
     showDropdown = false;
   };
-
-  // Fetch products when the component is mounted
-  onMount(() => {
-    fetchProducts();
-  });
 </script>
 
 <main class="max-w-5xl mx-auto pb-8">
 
-<!-- Banner Image -->
+<!-- Banner image -->
 <section class="mb-6">
   <img src="/frontpage/fit-together.jpg" alt="Let's Get Fit Together" class="w-full">
 </section>
@@ -132,16 +104,14 @@
 
   <!-- Product Grid -->
   <section class="grid grid-cols-3 gap-6 w-3/4 items-start">
-    {#if loading}
-      <p>Loading products...</p>
-    {:else if filteredProducts().length === 0}
+    {#if filteredProducts().length === 0}
       <p>No products found.</p>
     {:else}
       {#each filteredProducts() as product}
-        <div class="bg-white p-4 text-center shadow-md rounded-md flex flex-col h-full">
+        <div class="bg-white p-4 text-center shadow-md rounded-md flex flex-col h-full product-box">
           <img
             class="w-32 mx-auto mb-4"
-            src={`https://sabalancec-warehouse-sanv8.ondigitalocean.app/static/${product.image}`}
+            src={`https://sabalancec-warehouse-sanv8.ondigitalocean.app/${product.image}`}
             alt={product.name}
           >
           <p class="mt-auto">{product.name}</p>
@@ -192,6 +162,7 @@ hr {
 
 .grid {
   align-items: start;
+  display: grid;
 }
 .flex {
   display: flex;
@@ -206,7 +177,21 @@ hr {
   align-self: flex-start;
 }
 .h-full {
-  height: 100%;
+  height: auto; /* Prevent items from stretching unnecessarily */
+}
+
+/* Ensure consistent height for product boxes */
+.product-box {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-box img {
+  max-height: 120px;
+  object-fit: contain; /* Ensure images fit within their container */
+  margin: 0 auto;
 }
 
 </style>
