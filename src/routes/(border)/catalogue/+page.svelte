@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ProductCard from '$lib/components/ProductCard.svelte';
+	import { PUBLIC_WAREHOUSE_URL } from '$env/static/public';
 	export let data: { products: { id: string; name: string; image: string; category: string }[] };
 
 	const categories = [
@@ -134,17 +136,11 @@
 				<p>No products found.</p>
 			{:else}
 				{#each filteredProducts() as product}
-					<a
-						href="/product/{product.id}"
-						class="product-box flex h-full flex-col rounded-md bg-white p-4 text-center shadow-md"
-					>
-						<img
-							class="mx-auto mb-4 w-32"
-							src={`https://sabalancec-warehouse-sanv8.ondigitalocean.app/static/${product.image}`}
-							alt={product.name}
-						/>
-						<p class="mt-auto">{product.name}</p>
-					</a>
+					<ProductCard
+						name={product.name}
+						img="{PUBLIC_WAREHOUSE_URL}/static/{product.image}"
+						link={`/product/${product.id}`}
+					/>
 				{/each}
 			{/if}
 		</section>

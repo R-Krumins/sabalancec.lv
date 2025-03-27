@@ -21,10 +21,10 @@
 			class="mt-4 flex max-w-80 items-center justify-between transition-transform duration-300 ease-in-out group-hover:scale-105"
 		>
 			<div>
-				<h2 class="poppins-bold text-xl">{name}</h2>
-				<p class="poppins-medium text-gray-500">See details</p>
+				<h2 class="poppins-bold text-md md:text-xl">{name}</h2>
+				<p class="poppins-medium md:text-md text-sm text-gray-500">See details</p>
 			</div>
-			<img src={Arrow} alt="arrow" class="size-6" />
+			<img src={Arrow} alt="arrow" class="size-4 md:size-6" />
 		</div>
 	</a>
 </div>
