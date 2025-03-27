@@ -2,14 +2,18 @@
 //+page.server.ts only used for GET requests upon loading the page
 
 import { error } from '@sveltejs/kit';
-const url = "https://sabalancec-warehouse-sanv8.ondigitalocean.app"
+import type { PageServerLoad } from './$types';
 
-export const load = async () => {
-    const fetchCart = async () => {
-        try {
-            //These will be used for the actual cart
+const url = "https://sabalancec-warehouse-sanv8.ondigitalocean.app";
+
+export const load: PageServerLoad = async ({ locals, cookies }) => {
+    try {
+        // Retrieve user authentication token
+        const userToken = cookies.get('authToken');
+        if (!userToken) throw error(401, 'User not authenticated');
+
+        //These will be used for the actual cart endpoint
             // const userToken = cookies.get('authToken');
-            // if (!userToken) throw error(401, 'User not authenticated');
 
             // const response = await fetch(`${url}/api/cart`, {
             //     headers: {
@@ -17,27 +21,19 @@ export const load = async () => {
             //     },
             // });
 
-            //Placeholder endpoint
-            const response = await fetch(`${url}/api/product`);
+        //Placeholder endpoint
+        const response = await fetch(`${url}/api/product`);
+        const result = await response.json();
 
-            //Error handling
-            if (!response.ok) throw error(500, 'Failed to fetch cart');
-
-            const data = await response.json();
-
-            return {
-                //Pass fetched data to frontend
-                cartItems: data.data
-            };
-        } catch (error) {
-            console.log(error);
-            return {
-                //Return empty array on error
-                cartItems: []
-            };
-        }
+        return {
+            user: locals.user || null, //Pass user to frontend if exists
+            cartItems: result.data
+        };
+    } catch (error) {
+        console.error('Failed to fetch cart:', error);
+        return {
+            user: locals.user || null,
+            cartItems: []
+        };
     }
-    let cart = await fetchCart(); //Await is necessary to get data out of a "promise"
-    // console.log(JSON.stringify(cart))
-    return cart;
 };

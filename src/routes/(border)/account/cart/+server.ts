@@ -1,30 +1,33 @@
-//POST /api/cart - Add an item to the shopping cart.
-//PUT /api/cart/{itemId} - Update quantity or details of an item in the cart.
-//DELETE /api/cart/{itemId} - Remove an item from the cart.
-//+server.ts used for outgoing requests in page
+POST /api/cart - Add an item to the shopping cart.
+PUT /api/cart/{itemId} - Update quantity or details of an item in the cart.
+DELETE /api/cart/{itemId} - Remove an item from the cart.
++server.ts used for outgoing requests in page
 
-// import { json, error } from '@sveltejs/kit';
-// const url = "https://sabalancec-warehouse-sanv8.ondigitalocean.app"
+import { json } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
+import { verifyJWT } from '$lib/auth';
 
-// export const PUT = async ({ request, params }) => {
-//     try {
-//         const updatedItem = await request.json();
-//         const { itemId } = params as { itemId: string };
+const url = "https://sabalancec-warehouse-sanv8.ondigitalocean.app"
 
-//         const response = await fetch(`${url}/api/cart/${itemId}`, {
-//             method: 'PUT',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(updatedItem),
-//         });
+export const PUT = async ({ request, params }) => {
+    try {
+        const updatedItem = await request.json();
+        const { itemId } = params as { itemId: string };
 
-//         if (!response.ok) throw error(500, 'Failed to update item in cart');
+        const response = await fetch(`${url}/api/cart/${itemId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedItem),
+        });
 
-//         const result = await response.json();
-//         return json(result);
-//     }
-//     catch (error) {
-//         console.log(error);
-//     }
-// }
+        if (!response.ok) throw error(500, 'Failed to update item in cart');
+
+        const result = await response.json();
+        return json(result);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}

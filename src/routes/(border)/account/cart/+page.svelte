@@ -1,22 +1,37 @@
-import { JSON } from '@sveltejs/kit';
-
 <script lang="ts">
 
-    interface CartProduct {
-        id: number;
-        name: string;
-        category: string;
-        image: string;
-    }
+    //This is just an example for returning data from page.server
+        //return {
+        //    products: result.data
+        //};
+        //export let data: { products: { name: string; image: string; category: string }[] };
+        //let products = data.products;
 
-    export let cartItems: CartProduct[] = [];
-    console.log(JSON.stringify(cartItems))
+    export let data: { 
+        user: { token: string } | null;
+        cartItems: { 
+            id: string; 
+            name: string; 
+            image: string; 
+            category: string;
+            quantity: number;
+        }[] 
+    };
+
+    let cartItems = data.cartItems;
+    let token = data.user?.token || '';
+
+    //Pass number, number, string
+    //updateCartItem(itemId, quantity, token)
+
+    //Pass number, string
+    //deleteCartItem(itemId, token)
+
 </script>
 
 <!-- <button onclick={loadCart}>Load the cart</button> -->
 
 {#if cartItems}
-    <p>Data: {JSON.stringify(cartItems)}</p>
     {#each cartItems as product}
         <p>{product.name}</p>
     {/each}
