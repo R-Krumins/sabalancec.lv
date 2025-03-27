@@ -13,7 +13,7 @@
 		: 0;
 </script>
 
-<div class="flex gap-10">
+<div class="mb-5 flex gap-10">
 	<h1>€{price}</h1>
 
 	<div class="flex items-center gap-1">

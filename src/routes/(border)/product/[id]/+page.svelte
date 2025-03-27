@@ -1,6 +1,5 @@
 <script>
 	import { PUBLIC_WAREHOUSE_URL } from '$env/static/public';
-	import Banner from './Banner.svelte';
 	import Info from './Info.svelte';
 	import AddToCart from './AddToCart.svelte';
 	import Hdecor from '$lib/components/Hdecor.svelte';
@@ -17,8 +16,28 @@
 		<img src={BackArrow} alt="back arrow" />
 		<p>Catalogue</p>
 	</a>
-	<Banner name={data.name} image="{PUBLIC_WAREHOUSE_URL}/static/{data.image}" />
-	<Hdecor text={data.name} />
-	<Info price={data.price} reviews={null} sales={data.saleCount} />
-	<AddToCart />
+	<div class="mt-16 flex flex-wrap justify-center gap-16">
+		<img
+			class="rounded-4xl shadow-lg"
+			src="{PUBLIC_WAREHOUSE_URL}/static/{data.image}"
+			alt="product"
+		/>
+		<div>
+			<Hdecor text={data.name} />
+			<Info price={data.price} reviews={null} sales={data.saleCount} />
+			<AddToCart />
+
+			<div class="mt-8">
+				<h1>Description</h1>
+				<p class="poppins-light text-gray-400">Product description</p>
+				<div class="my-4 border-t border-dashed border-gray-300"></div>
+			</div>
+
+			<div class="mt-8">
+				<h1>Allergens</h1>
+				<p class="poppins-light text-gray-400">May contain allegens</p>
+				<div class="my-4 border-t border-dashed border-gray-300"></div>
+			</div>
+		</div>
+	</div>
 </div>
