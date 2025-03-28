@@ -1,23 +1,32 @@
-export const load = async ({ locals }) => {
-	let cardImage = 'https://placehold.co/600x400';
+import { APEX_WAREHOUSE_URL } from '$env/static/private';
+import { error, redirect } from '@sveltejs/kit';
+import CartCookie from '$lib/server/cartCookie.js';
+
+export const load = async ({ cookies }) => {
 	return {
-		items: [
-			{
-				id: '1',
-				img: cardImage,
-				name: 'Item 1',
-				category: 'Category 1',
-				price: 140.55,
-				quantity: 1
-			},
-			{
-				id: '2',
-				img: cardImage,
-				name: 'Item 2',
-				category: 'Category 2',
-				price: 200.0,
-				quantity: 1
-			}
-		]
+		items: CartCookie.get(cookies)
 	};
+	// const userId = cookies.get('userId');
+
+	// if (!userId) {
+	// 	throw redirect(302, '/login');
+	// }
+
+	// try {
+	// 	const res = await fetch(`${APEX_WAREHOUSE_URL}/api/cart?user_id=${userId}`);
+
+	// 	if (!res.ok) {
+	// 		const errorData = await res.json();
+	// 		throw error(res.status, errorData.result || 'Failed to fetch cart');
+	// 	}
+
+	// 	const data = await res.json();
+
+	// 	return {
+	// 		cart: data.result
+	// 	};
+	// } catch (err) {
+	// 	console.error('Error fetching cart', err);
+	// 	throw error(500, 'Internal server error');
+	// }
 };

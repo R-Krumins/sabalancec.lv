@@ -8,5 +8,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	cookies.delete('refreshToken', { path: '/' });
 	cookies.delete('userId', { path: '/' });
 	cookies.delete('userName', { path: '/' });
+	cookies.delete('cart', { path: '/' });
 	return json({ success: 'User logged out' }, { status: 200 });
 };

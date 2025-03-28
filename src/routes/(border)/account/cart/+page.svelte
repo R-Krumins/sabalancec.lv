@@ -1,7 +1,13 @@
 <script lang="ts">
 	import CartItem from './CartItem.svelte';
 
-	export let data;
+	let { data } = $props();
+
+	let totalPrice = $derived(data.items.reduce((acc, item) => acc + item.price * item.quantity, 0));
+	let discount = $state(0);
+	let taxRate = $state(0.21);
+	let delivery = $state(50);
+	let finalPrice = $derived((totalPrice - discount) * (1 + taxRate) + delivery);
 
 	//Item quantity functions
 	function increase(id: string) {}
@@ -22,17 +28,7 @@
 	<div class="align-center flex w-4xl flex-wrap rounded-xl bg-white p-2">
 		<div class="Items w-full py-8">
 			{#each data.items as item}
-				<CartItem
-					id={item.id}
-					img={item.img}
-					name={item.name}
-					category={item.category}
-					price={item.price}
-					quantity={item.quantity}
-					{increase}
-					{decrease}
-					{deleteItem}
-				/>
+				<CartItem {item} {increase} {decrease} {deleteItem} />
 			{/each}
 		</div>
 		<p class="poppins-semibold text-2xl">Price details</p>
@@ -45,11 +41,11 @@
 				<p class="poppins-semibold text-xl text-black">Order Total</p>
 			</div>
 			<div class="poppins-regular text-md text-right text-gray-500">
-				<p class="my-1">1250 €</p>
-				<p class="my-1">No discount</p>
-				<p class="my-1">21%</p>
-				<p class="my-1">50 €</p>
-				<p class="poppins-semibold text-xl text-black">2250 €</p>
+				<p class="my-1">{totalPrice} €</p>
+				<p class="my-1">{discount === 0 ? 'No discount' : `${discount} €`}</p>
+				<p class="my-1">{taxRate * 100}%</p>
+				<p class="my-1">{delivery} €</p>
+				<p class="poppins-semibold text-xl text-black">{finalPrice} €</p>
 			</div>
 		</div>
 		<div class="flex w-full justify-center py-8">

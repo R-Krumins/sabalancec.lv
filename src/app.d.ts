@@ -12,6 +12,15 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+
+	type CartItem = {
+		id: string;
+		img: string;
+		name: string;
+		category: string;
+		price: number;
+		quantity: number;
+	};
 }
 
 export {};
