@@ -42,9 +42,6 @@
 							</a>
 						</div>
 					{:else}
-						<a href="/auth/login" class="rounded-lg bg-black p-1 text-nowrap text-white md:p-2"
-							>LOG IN</a
-						>
 												<a href="/auth/signup" class="rounded-lg bg-black p-1 text-nowrap text-white md:p-2"
 							>SIGN UP</a
 						>
