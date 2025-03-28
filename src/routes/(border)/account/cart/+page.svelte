@@ -45,7 +45,7 @@
 				<p class="my-1">{discount === 0 ? 'No discount' : `${discount} €`}</p>
 				<p class="my-1">{taxRate * 100}%</p>
 				<p class="my-1">{delivery} €</p>
-				<p class="poppins-semibold text-xl text-black">{finalPrice} €</p>
+				<p class="poppins-semibold text-xl text-black">{finalPrice.toFixed(2)} €</p>
 			</div>
 		</div>
 		<div class="flex w-full justify-center py-8">
