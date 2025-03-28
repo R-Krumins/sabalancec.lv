@@ -22,7 +22,7 @@
 	<h2 class="poppins-regular mt-6 text-2xl text-white">Live best and healthy life!</h2>
 
 	<button
-		class="poppins-bold mt-6 rounded-2xl bg-white px-6 py-4 text-xl text-black"
+		class="poppins-bold mt-6 cursor-pointer rounded-2xl bg-white px-6 py-4 text-xl text-black transition-transform duration-200 hover:scale-105 hover:bg-gray-200 active:scale-95"
 		onclick={() => goto('/catalogue')}>Shop Now</button
 	>
 </div>
