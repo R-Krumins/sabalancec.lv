@@ -49,12 +49,15 @@
 			</div>
 		</div>
 		<div class="flex w-full justify-center py-8">
-			<button
-				onclick={continueToPayment}
-				class="cursor-pointer rounded-2xl bg-lime-600 px-18 py-4 text-2xl text-white opacity-60"
-			>
-				<p>Continue</p>
-			</button>
+			<form method="POST" action="?/buy">
+				<input type="hidden" name="finalPrice" value={finalPrice} readonly />
+				<button
+					type="submit"
+					class="cursor-pointer rounded-2xl bg-lime-600 px-18 py-4 text-2xl text-white opacity-60"
+				>
+					<p>Continue</p>
+				</button>
+			</form>
 		</div>
 	</div>
 </div>
