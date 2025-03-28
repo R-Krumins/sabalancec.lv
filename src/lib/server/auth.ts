@@ -1,6 +1,13 @@
 import type { Cookies } from '@sveltejs/kit';
 import { AUTH_URL, PRODUCTION } from '$env/static/private';
 
+type UserInfo = {
+	id: string;
+	fullName: string;
+	email: string;
+	address: string;
+};
+
 export async function authServiceLogin(email: any, password: any) {
 	return await fetch(`${AUTH_URL}/api/login`, {
 		method: 'POST',
@@ -51,4 +58,27 @@ export function setJWTCookies(cookies: Cookies, data: any) {
 		sameSite: 'strict',
 		maxAge: 60 * 60 * 24 * 7
 	});
+
+	cookies.set('userAddress', data.address, {
+		path: '/',
+		secure: PRODUCTION === 'yes',
+		sameSite: 'strict',
+		maxAge: 60 * 60 * 24 * 7
+	});
+
+	cookies.set('userEmail', data.email, {
+		path: '/',
+		secure: PRODUCTION === 'yes',
+		sameSite: 'strict',
+		maxAge: 60 * 60 * 24 * 7
+	});
+}
+
+export function readJWTCookies(cookies: Cookies): UserInfo {
+	const id = cookies.get('userId') || '';
+	const fullName = cookies.get('userName') || '';
+	const email = cookies.get('userEmail') || '';
+	const address = cookies.get('userAddress') || '';
+
+	return { id, fullName, email, address };
 }
