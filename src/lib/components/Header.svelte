@@ -42,7 +42,7 @@
 							</a>
 						</div>
 					{:else}
-						<a href="/auth/signup" class="rounded-lg bg-black p-1 text-nowrap text-white md:p-2"
+												<a href="/auth/signup" class="rounded-lg bg-black p-1 text-nowrap text-white md:p-2"
 							>SIGN UP</a
 						>
 					{/if}
