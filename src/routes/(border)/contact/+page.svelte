@@ -1,17 +1,69 @@
-<script>
-    //For submitting with svelte
-    let firstName = '';
-    let lastName = '';
-    let email = '';
-    let phone = '';
-    let message = '';
+<script lang="ts">
+	import phone_ico from '$lib/images/contact/phone.svg';
+	import email_ico from '$lib/images/contact/mail.svg';
+	import location_ico from '$lib/images/contact/location.svg';
 
-    import phone_ico from '$lib/images/contact/phone.svg';
-    import email_ico from '$lib/images/contact/mail.svg';
-    import location_ico from '$lib/images/contact/location.svg';
+	let firstName = '';
+	let lastName = '';
+	let email = '';
+	let phone = '';
+	let message = '';
+	let selectedSubject = '';
+	let isSubmitting = false;
+	let submitError = '';
+	let submitSuccess = false;
 
+	const subjects = [
+		'General inquiry',
+		'Got robbed',
+		'Lonely',
+		'Need to talk',
+		'Hotel? Trivago'
+	];
+
+	function handleSubjectSelect(subject: string) {
+		selectedSubject = selectedSubject === subject ? '' : subject;
+	}
+
+	async function submitForm() {
+		if (!firstName || !lastName || !email || !message) {
+			submitError = 'Please fill in all required fields.';
+			return;
+		}
+
+		isSubmitting = true;
+		submitError = '';
+		submitSuccess = false;
+
+		try {
+			const response = await fetch('/contact/send-email', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					firstName,
+					lastName,
+					email,
+					phone,
+					subject: selectedSubject,
+					message
+				})
+			});
+
+			const data = await response.json();
+
+			if (response.ok) {
+				submitSuccess = true;
+				firstName = lastName = email = phone = message = selectedSubject = '';
+			} else {
+				submitError = data.message || 'Failed to send message';
+			}
+		} catch (error) {
+			submitError = 'Network error. Please try again.';
+		} finally {
+			isSubmitting = false;
+		}
+	}
 </script>
-
 <style>
     /*Contact information circles*/
     .CircleLight {
@@ -24,8 +76,8 @@
     }
     /*Input field color changes*/
     input {
-    outline: none;
-    transition: all 0.2s ease-in-out;
+        outline: none;
+        transition: all 0.2s ease-in-out;
     }
     input:focus {
         color: black;
@@ -68,21 +120,22 @@
         border-width: 0 .15em .15em 0;
         transform: rotate(45deg);
     }
+    .error-message {
+        color: red;
+        margin-top: 10px;
+    }
+    .success-message {
+        color: green;
+        margin-top: 10px;
+    }
 </style>
 
 <div class="align-center flex justify-center flex-wrap pt-16 pb-16 px-4 bg-contact-bg">
-    <!--tailwind notes
-        content/h1 padding from top -> mt-16
-        h1 size -> 5xl
-        p margin from h1 -> mt-4
-    -->
     <h1 class="text-5xl w-full text-center">Contact Us</h1>
     <p class="w-full text-center mt-4 mb-4 poppins-medium text-gray-500">Any questions or remarks? Just write us a message!</p>
     
     <div class="flex flex-wrap align-center w-7xl bg-white p-2 rounded-xl">
-
         <div class="w-full md:w-2/5 bg-contact-green-medium rounded-lg p-12 relative truncate text-wrap">
-            <!--Contact information-->
             <h2 class="text-3xl w-full font-bold text-white poppins-semibold">Contact information</h2>
             <p class="w-full mt-4 mb-4 text-gray-200">Say something to start a live chat!</p>
             <div class="z-30 relative md:mb-48">
@@ -103,61 +156,82 @@
             <div class="CircleDark absolute bg-contact-green-dark rounded-full w-70 h-70 z-10"></div>
         </div>
 
-        <form action="" class="w-full md:w-3/5 p-4 flex flex-col items-start">
-        <!-- <form on:submit={handleSubmit} class="w-full md:w-3/5 p-4"> -->
+        <form 
+            on:submit|preventDefault={submitForm} 
+            class="w-full md:w-3/5 p-4 flex flex-col items-start"
+        >
             <div class="flex flex-wrap w-full">
                 <div class="InputDiv px-8 py-6 w-full md:w-1/2">
                     <label class="text-sm Label {firstName ? 'FocusedLabel' : ''}" for="firstname">
                         First Name:
                     </label>
                     <br>
-                    <input type="text" bind:value={firstName} placeholder="John" id="firstname" class="border-b border-gray-300 w-full py-2">
+                    <input 
+                        type="text" 
+                        bind:value={firstName} 
+                        placeholder="John" 
+                        id="firstname" 
+                        required
+                        class="border-b border-gray-300 w-full py-2"
+                    >
                 </div>
                 <div class="InputDiv px-8 py-6 w-full md:w-1/2">
                     <label class="text-sm Label {lastName ? 'FocusedLabel' : ''}" for="lastname">
                         Last Name:
                     </label>
                     <br>
-                    <input type="text" bind:value={lastName} placeholder="Garlic" id="lastname" class="border-b border-gray-300 w-full py-2">
+                    <input 
+                        type="text" 
+                        bind:value={lastName} 
+                        placeholder="Garlic" 
+                        id="lastname" 
+                        required
+                        class="border-b border-gray-300 w-full py-2"
+                    >
                 </div>
                 <div class="InputDiv px-8 py-6 w-full md:w-1/2">
                     <label class="text-sm Label {email ? 'FocusedLabel' : ''}" for="email">
                         E-mail:
                     </label>
                     <br>
-                    <input type="text" bind:value={email} placeholder="john@inbox.lv" id="email" class="border-b border-gray-300 w-full py-2">
+                    <input 
+                        type="email" 
+                        bind:value={email} 
+                        placeholder="john@inbox.lv" 
+                        id="email" 
+                        required
+                        class="border-b border-gray-300 w-full py-2"
+                    >
                 </div>
                 <div class="InputDiv px-8 py-6 w-full md:w-1/2">
                     <label class="text-sm Label {phone ? 'FocusedLabel' : ''}" for="phone">
                         Phone number:
                     </label>
                     <br>
-                    <input type="text" bind:value={phone} placeholder="+371 12345678" id="phone" class="border-b border-gray-300 w-full py-2">
+                    <input 
+                        type="tel" 
+                        bind:value={phone} 
+                        placeholder="+371 12345678" 
+                        id="phone" 
+                        class="border-b border-gray-300 w-full py-2"
+                    >
                 </div>
             </div>
 
             <div class="CheckboxDiv px-8 py-6 flex flex-row flex-wrap w-auto">
                 <p class="w-full poppins-semibold">Select subject:</p>
-                <label class="flex items-center space-x-2 cursor-pointer pe-4 mt-4 w-full sm:w-auto">
-                  <input type="checkbox">
-                  <p class="text-gray-700 text-sm m-0">General inquiry</p>
-                </label>
-                <label class="flex items-center space-x-2 cursor-pointer pe-4 mt-4 w-full sm:w-auto">
-                    <input type="checkbox">
-                    <p class="text-gray-700 text-sm m-0">Got robbed</p>
-                </label>
-                <label class="flex items-center space-x-2 cursor-pointer pe-4 mt-4 w-full sm:w-auto">
-                    <input type="checkbox">
-                    <p class="text-gray-700 text-sm m-0">Lonely</p>
-                </label>
-                <label class="flex items-center space-x-2 cursor-pointer pe-4 mt-4 w-full sm:w-auto">
-                    <input type="checkbox">
-                    <p class="text-gray-700 text-sm m-0">Need to talk</p>
-                </label>
-                <label class="flex items-center space-x-2 cursor-pointer pe-4 mt-4 w-full sm:w-auto">
-                    <input type="checkbox">
-                    <p class="text-gray-700 text-sm m-0">Hotel? Trivago</p>
-                </label>
+                {#each subjects as subject}
+                    <label 
+                        class="flex items-center space-x-2 cursor-pointer pe-4 mt-4 w-full sm:w-auto"
+                    >
+                        <input 
+                            type="checkbox" 
+                            checked={selectedSubject === subject}
+                            on:change={() => handleSubjectSelect(subject)}
+                        >
+                        <p class="text-gray-700 text-sm m-0">{subject}</p>
+                    </label>
+                {/each}
             </div>
 
             <div class="flex flex-wrap w-full">
@@ -166,12 +240,32 @@
                         Message:
                     </label>
                     <br>
-                    <input type="text" bind:value={message} placeholder="John" id="message" class="border-b border-gray-300 w-full py-2">
+                    <textarea 
+                        bind:value={message} 
+                        placeholder="Your message here" 
+                        id="message" 
+                        required
+                        class="border-b border-gray-300 w-full py-2"
+                    ></textarea>
                 </div>
             </div>
 
+            {#if submitError}
+                <div class="px-8 w-full error-message">{submitError}</div>
+            {/if}
+
+            {#if submitSuccess}
+                <div class="px-8 w-full success-message">Message sent successfully!</div>
+            {/if}
+
             <div class="flex flex-wrap w-full px-8 py-6 justify-center md:justify-end">
-                <input type="submit" value="Send Message" class="bg-black cursor-pointer poppins-medium hover:bg-gray-800 text-white py-4 px-12 border border-black rounded-lg">
+                <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    class="bg-black cursor-pointer poppins-medium hover:bg-gray-800 text-white py-4 px-12 border border-black rounded-lg"
+                >
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
             </div>
         </form>
     </div>
