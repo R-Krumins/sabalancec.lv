@@ -1,3 +1,5 @@
+import { PUBLIC_WAREHOUSE_URL } from '$env/static/public';
+
 export const load = async ({ params }) => {
     //Unique ID parameter from URL
     const { id } = params;
@@ -5,7 +7,7 @@ export const load = async ({ params }) => {
     const fetchAllergen = async () => {
         try {
             //API call on server only including allergen ID
-            const response = await fetch(`https://sabalancec-warehouse-sanv8.ondigitalocean.app/api/allergen/${id}`)
+            const response = await fetch(`${PUBLIC_WAREHOUSE_URL}/api/allergen/${id}`)
             const result = await response.json()
             // console.log("Single allergen data fetched!")
             return {

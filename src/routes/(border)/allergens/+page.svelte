@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { PUBLIC_WAREHOUSE_URL } from '$env/static/public';
     import header from '$lib/images/allergens/allergens-header.png';
     import header_blank from '$lib/images/allergens/allergens-header-blank.png';
     import arrow from '$lib/images/allergens/arrow-right.svg';
@@ -36,9 +37,9 @@
                             <img 
                                 class="w-full rounded-2xl" 
                                 src={
-                                    `https://sabalancec-warehouse-sanv8.ondigitalocean.app/${allergen.image}`
+                                    `${PUBLIC_WAREHOUSE_URL}/${allergen.image}`
                                     ?
-                                    `https://sabalancec-warehouse-sanv8.ondigitalocean.app/${allergen.image}`
+                                    `${PUBLIC_WAREHOUSE_URL}/${allergen.image}`
                                     : placeholderImage
                                 } 
                                 alt={allergen.name}

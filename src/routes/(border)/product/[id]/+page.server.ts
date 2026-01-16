@@ -1,21 +1,12 @@
-import { APEX_WAREHOUSE_URL, WAREHOUSE_URL } from '$env/static/private';
+import { WAREHOUSE_URL } from '$env/static/private';
 import { fail } from '@sveltejs/kit';
 import CartCookie from '$lib/server/cartCookie';
 
 export const load = async ({ params }) => {
 	const { id } = params;
-	const res = await fetch(`${APEX_WAREHOUSE_URL}/api/products/${id}`);
+	const res = await fetch(`${WAREHOUSE_URL}/api/product/${id}`);
 	const data = await res.json();
-	return {
-		id: data.items[0].id,
-		name: data.items[0].name,
-		price: data.items[0].price,
-		image: data.items[0].image,
-		saleCount: data.items[0].amount_sold,
-		hasAllergens: data.items[0].has_allergens === '1',
-		allergenId: data.items[0].allergen_id,
-		rating: data.items[0].rating
-	};
+	return data.data;
 };
 
 export const actions = {
@@ -34,7 +25,7 @@ export const actions = {
 		console.log('addToCart', productId, quantity);
 
 		try {
-			const res = await fetch(`${APEX_WAREHOUSE_URL}/api/products/${productId}`);
+			const res = await fetch(`${WAREHOUSE_URL}/api/product/${productId}`);
 			const data = await res.json();
 
 			CartCookie.add(cookies, {

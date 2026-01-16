@@ -19,7 +19,7 @@
 	<div class="mt-16 flex flex-wrap justify-center gap-16">
 		<img
 			class="rounded-4xl shadow-lg"
-			src="{PUBLIC_WAREHOUSE_URL}/static/{data.image}"
+			src="{PUBLIC_WAREHOUSE_URL}/{data.image}"
 			alt="product"
 		/>
 		<div>

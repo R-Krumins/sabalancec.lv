@@ -138,7 +138,7 @@
 				{#each filteredProducts() as product}
 					<ProductCard
 						name={product.name}
-						img="{PUBLIC_WAREHOUSE_URL}/static/{product.image}"
+						img="{PUBLIC_WAREHOUSE_URL}/{product.image}"
 						link={`/product/${product.id}`}
 					/>
 				{/each}

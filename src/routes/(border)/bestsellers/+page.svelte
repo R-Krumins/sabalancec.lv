@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { PUBLIC_WAREHOUSE_URL } from '$env/static/public';
     import header from '$lib/images/bestsellers/bestsellers-header.png';
     import header_blank from '$lib/images/bestsellers/bestsellers-header-blank.png';
     import arrow from '$lib/images/bestsellers/arrow-right.svg';
@@ -41,9 +42,9 @@
                             <img 
                                 class="w-full rounded-2xl" 
                                 src={
-                                    `https://sabalancec-warehouse-sanv8.ondigitalocean.app/${bestseller.image}`
+                                    `${PUBLIC_WAREHOUSE_URL}/${bestseller.image}`
                                     ?
-                                    `https://sabalancec-warehouse-sanv8.ondigitalocean.app/${bestseller.image}`
+                                    `${PUBLIC_WAREHOUSE_URL}/${bestseller.image}`
                                     : placeholderImage
                                 } 
                                 alt={bestseller.name}

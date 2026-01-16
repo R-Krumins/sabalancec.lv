@@ -1,9 +1,11 @@
+import { PUBLIC_WAREHOUSE_URL } from '$env/static/public';
+
 export const load = async () => {
     const fetchBestsellers = async () => {
         try {
             //API call on server only
             //Update endpoint to actual bestsellers whenever available
-            const response = await fetch('https://sabalancec-warehouse-sanv8.ondigitalocean.app/api/product')
+            const response = await fetch(`${PUBLIC_WAREHOUSE_URL}/api/product`)
             const result = await response.json()
             // console.log("All bestseller data fetched!")
             return {

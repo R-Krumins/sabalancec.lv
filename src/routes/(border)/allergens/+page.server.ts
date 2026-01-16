@@ -1,8 +1,10 @@
+import { PUBLIC_WAREHOUSE_URL } from '$env/static/public';
+
 export const load = async () => {
     const fetchAllergens = async () => {
         try {
             //API call on server only
-            const response = await fetch('https://sabalancec-warehouse-sanv8.ondigitalocean.app/api/allergen')
+            const response = await fetch(`${PUBLIC_WAREHOUSE_URL}/api/allergen`)
             const result = await response.json()
             // console.log("All allergen data fetched!")
             return {
