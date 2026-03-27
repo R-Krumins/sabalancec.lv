@@ -20,6 +20,7 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0",
 		"@types/node": "^22.13.9",
+		"@types/nodemailer": "^6.4.17",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
@@ -30,6 +31,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
-		"dotenv": "^16.4.7"
+		"dotenv": "^16.4.7",
+		"nodemailer": "^6.10.0"
 	}
 }
